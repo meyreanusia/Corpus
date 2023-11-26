@@ -9,10 +9,11 @@ conexao.on("error", (erro) => {
 });
 
 conexao.once("open", () => {
-  console.log("conexão com o banco feita com sucesso");
+  console.log("Conexão com o banco feita com sucesso!");
 });
 
 const app = express();
 routes(app)
 app.use(express.json())
 export default app;
+
