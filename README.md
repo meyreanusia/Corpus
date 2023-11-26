@@ -17,7 +17,7 @@ Certifique-se de que você tem o Node.js e o MongoDB instalados no seu sistema a
 
 3. Inicie o servidor de desenvolvimento:
    ```
-    npm run dev
+   ` npm run dev`
 
 
 ## Endpoints da API
