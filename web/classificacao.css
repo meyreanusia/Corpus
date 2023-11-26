@@ -1,0 +1,48 @@
+.classificacao{
+    height: 100vh;
+    box-sizing: border-box;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.tabelaClassificacao{
+    box-sizing: border-box;
+    height: 80%;
+    width: 100%;
+    margin: 40px 10px 10px;
+
+}
+
+.tabelaClassificacao th, .tabelaClassificacao td {
+    border: 1px solid #dddddd; 
+    padding: 8px;
+}
+
+body > table > thead{
+    background-color: rgb(52, 103, 232);
+    color: white;
+}
+body > table > tbody > tr > td:nth-child(3){
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    column-gap: 5px;
+
+}
+.tabelaClassificacao > tbody > tr > td > button{
+    background-color: none;
+    border: none;
+    border-radius: 30px;
+    font-size: 13px;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+
+.selecionado{
+    background-color: darkgray;
+}
