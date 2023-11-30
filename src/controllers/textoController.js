@@ -52,8 +52,6 @@ class TextoController {
   static async atualizarClassificacaoTexto(req, res){
     try{
       const id = req.params.id;
-      // console.log(id);
-
       await texto.findByIdAndUpdate(id, { classificacao: req.body.classificacao });
       res.status(200).json({message: "texto atualizado"})
     }catch(error){

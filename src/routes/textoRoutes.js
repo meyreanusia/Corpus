@@ -7,15 +7,16 @@ const multerConfig = multer()
 const routes = express.Router();
 
 routes.use(cors({
-    origin: "http://seu-domínio-permitido.com",
+
+    origin: "http://127.0.0.1:5500",
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-    credentials: true, // Habilita o uso de credenciais (cookies, por exemplo)
+    credentials: true, 
   }));
 
-routes.use(cors());
+// routes.use(cors());
 
-routes.get("/classificacao",TextoController.listarTexto);
+routes.get("/classificacao", cors(), TextoController.listarTexto);
 routes.post("/classificacao",  multerConfig.single("file"), TextoController.cadastrarTexto);
-routes.put("/classificacao/:id", TextoController.atualizarClassificacaoTexto);
-routes.delete("/classificacao/:id", TextoController.excluirTexto)
+routes.put("/classificacao/:id", cors(),  TextoController.atualizarClassificacaoTexto);
+routes.delete("/classificacao/:id",  cors(), TextoController.excluirTexto)
 export default routes;

@@ -19,8 +19,8 @@ function handleText() {
           const thead = document.querySelector("thead");
 
           for (const key in item) {
-            if(index === 0 ){
-                continue;
+            if (index === 0) {
+              continue;
             }
             const td = document.createElement("td");
             if (key == "classificacao") {
@@ -41,17 +41,15 @@ function handleText() {
 
               positivo.addEventListener("click", (event) => {
                 selectButton(event);
-                classificar(event)
+                classificar(event);
               });
               negativo.addEventListener("click", (event) => {
                 selectButton(event);
-                classificar(event)
-
+                classificar(event);
               });
               neutro.addEventListener("click", (event) => {
                 selectButton(event);
-                classificar(event)
-
+                classificar(event);
               });
             } else {
               td.textContent = item[key];
@@ -70,28 +68,27 @@ function handleText() {
 }
 
 function criarTabela(item, index) {
-    const tabela = document.querySelector(".tabelaClassificacao");
-    const thead = document.querySelector("thead");
-    const tr = document.createElement("tr");
+  const tabela = document.querySelector(".tabelaClassificacao");
+  const thead = document.querySelector("thead");
+  const tr = document.createElement("tr");
 
-    const id = document.createElement("th")
-    id.textContent = "ID"
-    id.style.width = "10%";
+  const id = document.createElement("th");
+  id.textContent = "ID";
+  id.style.width = "10%";
 
-    const texto = document.createElement("th");
-    texto.textContent = "Texto";
-    texto.style.width = "80%";
+  const texto = document.createElement("th");
+  texto.textContent = "Texto";
+  texto.style.width = "80%";
 
-    const classificacao = document.createElement("th")
-    classificacao.textContent = "Classificação";
-    id.style.width = "10%";
+  const classificacao = document.createElement("th");
+  classificacao.textContent = "Classificação";
+  id.style.width = "10%";
 
+  tr.appendChild(id);
+  tr.appendChild(texto);
+  tr.appendChild(classificacao);
 
-    tr.appendChild(id)
-    tr.appendChild(texto)
-    tr.appendChild(classificacao)
-
-    thead.appendChild(tr)
+  thead.appendChild(tr);
 }
 
 function selectButton(event) {
@@ -109,13 +106,36 @@ function selectButton(event) {
   });
 }
 
-function classificar(event){
- const button = event.target;
+async function classificar(event) {
+  const button = event.target;
   const row = button.closest("tr");
-  const idCell = row.querySelector("td"); // Assumindo que o ID está na primeira célula
+  const idCell = row.querySelector("td");
   const id = idCell.textContent;
-  
 
+
+  try{
+
+    const response = await fetch(`http://localhost:3000/classificacao/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        classificacao: button.textContent
+      })
+    })
+
+  if(!response.ok){
+    throw new Error(`Erro na classificação: ${response.statusText}`)
+  }
+
+  const data = await response.json();
+  console.log(data);
+
+  }catch(error){
+    console.log(`Erro durante a requisição: ${error}`);
+
+  }
 }
 
 handleText();
