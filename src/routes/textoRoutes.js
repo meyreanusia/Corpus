@@ -1,8 +1,9 @@
 import express  from "express";
 import TextoController from "../controllers/textoController.js";
 import multer from "multer";
+import texto from "../models/Textos.js";
 import cors from "cors";
-
+import { createObjectCsvWriter } from 'csv-writer';
 const multerConfig = multer()
 const routes = express.Router();
 
@@ -13,10 +14,40 @@ routes.use(cors({
     credentials: true, 
   }));
 
-// routes.use(cors());
 
 routes.get("/classificacao", cors(), TextoController.listarTexto);
 routes.post("/classificacao",  multerConfig.single("file"), TextoController.cadastrarTexto);
 routes.put("/classificacao/:id", cors(),  TextoController.atualizarClassificacaoTexto);
-routes.delete("/classificacao/:id",  cors(), TextoController.excluirTexto)
+
+routes.get('/download-csv', async (req, res) => {
+  try {
+    const csvWriter = createObjectCsvWriter({
+      path: 'classificado.csv',
+      header: [
+        { id: 'id', title: 'ID' },
+        { id: 'texto', title: 'Texto' },
+        { id: 'classificacao', title: 'Classificação' },
+
+      ],
+    });
+
+    const dadosTabela = await texto.find({});
+
+    csvWriter.writeRecords(dadosTabela)
+      .then(() => {
+        res.setHeader('Content-Type', 'text/csv');
+        res.setHeader('Content-Disposition', 'attachment; filename=output.csv');
+        res.download('output.csv');
+      })
+      .catch((error) => {
+        console.error(error);
+        res.status(500).json({ error: 'Erro ao gerar o arquivo CSV' });
+      });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Erro ao gerar o arquivo CSV' });
+  }
+});
+
+
 export default routes;

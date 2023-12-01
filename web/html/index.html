@@ -11,17 +11,13 @@
 <body>
     <h3>Corpus</h3>
     <p>Faça o upload do seu arquvio .csv </p>
-   <form action="http://localhost:3000/" class="carregaArquivo" enctype="multipart/form-data" method="POST">
+   <form action="http://localhost:3000/classificacao" class="carregaArquivo" enctype="multipart/form-data" method="POST" onsubmit="redirectToClassificacao()">
         <div class="mb-3">
-            <input type="file" class="form-control" id="arquivoInput" aria-label="file example" required accept=".csv">
+            <input type="file" class="form-control" id="arquivoInput" aria-label="file example" required accept=".csv" name="file">
             <div class="invalid-feedback">Example invalid form file feedback</div>
         </div>
 
         <button type="submit"  class="bttEnviar"> Enviar</button>
-
-        <div class="spinner-border text-primary" role="status" style="display: none;">
-            <span class="visually-hidden">Loading...</span>
-          </div>
     </form>
     
 <script src="../index.js"></script>

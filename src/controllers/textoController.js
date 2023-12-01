@@ -1,7 +1,7 @@
 import texto from "../models/Textos.js";
 import {Readable} from 'stream';
 import readline from "readline"
-import mongoose from 'mongoose';
+
 
 class TextoController {
 
@@ -15,6 +15,7 @@ class TextoController {
   }
 
   static async cadastrarTexto(req, res) {
+    console.log("cadastrar");
     try {
       const { file } = req;
       const { buffer } = file;
@@ -59,15 +60,6 @@ class TextoController {
     }
   }
 
-  static async excluirTexto(req, res){
-    try{
-      const id = req.params.id;
-      await texto.findByIdAndDelete(id);
-      res.status(200).json({ message: `texto excluido com sucesso`})
-    }catch(error){
-      res.status(500).json({ message: `${error.message} - falha na exclusão`})
-    }
-  }
 };
 
 export default TextoController;

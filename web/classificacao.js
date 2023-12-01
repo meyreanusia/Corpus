@@ -89,6 +89,13 @@ function criarTabela(item, index) {
   tr.appendChild(classificacao);
 
   thead.appendChild(tr);
+
+  const body = document.querySelector("body");
+  const dowload = document.createElement("a");
+  dowload.classList.add("dowload");
+  dowload.textContent = "Dowload CSV"
+  dowload.setAttribute("href", "http://localhost:3000/download-csv")
+  body.appendChild(dowload)
 }
 
 function selectButton(event) {
