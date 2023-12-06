@@ -7,7 +7,15 @@ body {
   justify-content: center;
   align-items: center;
 }
+body > div.container-titulo{
+  display: flex;
+  align-items: center;
+  column-gap: 5px;
+}
 
+body > .container-titulo > i{
+  color: rgb(52, 103, 232);
+}
 .carregaArquivo {
   border-radius: 20px;
   width: 50%;

@@ -42,8 +42,7 @@ class TextoController {
       const products = [];
       let documentoId =  uuidv4();
       let primeiraLinha = true;
-      console.log(documentoId);
-      console.log(typeof documentoId);
+
 
       for await (const line of productsLine) {
 

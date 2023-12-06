@@ -1,6 +1,8 @@
-function handleText() {
+
+
+function handleText(documentoId) {
   try {
-    fetch("http://localhost:3000/classificacao")
+    fetch(`http://localhost:3000/classificacao/${documentoId}`)
       .then((response) => {
         if (!response.ok) {
           throw new Error(`HTTP error! status : ${response.status}`);
@@ -8,22 +10,24 @@ function handleText() {
         return response.json();
       })
       .then((data) => {
+        console.log("entrei");
+        console.log(data);
+        const listaTextos = data.listaTextos
         const tabela = document.querySelector(".tabelaClassificacao");
         const tbody = document.createElement("tbody");
 
-        data.forEach((item, index) => {
+        listaTextos.forEach((item, index) => {
           if (index === 0) {
             criarTabela(item, index);
           }
           const tr = document.createElement("tr");
           const thead = document.querySelector("thead");
 
+          index = 0; 
           for (const key in item) {
-            if (index === 0) {
-              continue;
-            }
             const td = document.createElement("td");
-            if (key == "classificacao") {
+
+            if (index == 2) {
               const positivo = document.createElement("button");
               const negativo = document.createElement("button");
               const neutro = document.createElement("button");
@@ -51,17 +55,22 @@ function handleText() {
                 selectButton(event);
                 classificar(event);
               });
-            } else {
+            } 
+            else if (index >= 3) {
+              continue
+            }else {
               td.textContent = item[key];
             }
 
             tr.appendChild(td);
+            index++
           }
 
           tbody.appendChild(tr);
         });
         tabela.appendChild(tbody);
       });
+      return response.json();
   } catch (error) {
     console.log(error);
   }
@@ -81,7 +90,7 @@ function criarTabela(item, index) {
   texto.style.width = "80%";
 
   const classificacao = document.createElement("th");
-  classificacao.textContent = "Classificação";
+  classificacao.textContent = "Rótulo";
   id.style.width = "10%";
 
   tr.appendChild(id);
@@ -144,5 +153,6 @@ async function classificar(event) {
 
   }
 }
-
-handleText();
+const urlParams = new URLSearchParams(window.location.search);
+const documentoId = urlParams.get('documentoId');
+handleText(documentoId)
