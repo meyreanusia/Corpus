@@ -16,6 +16,7 @@ routes.use(cors({
 
 
 routes.get("/classificacao", cors(), TextoController.listarTexto);
+routes.get("/classificacao/:documentoId", cors(), TextoController.getTextoPorDocumentoId);
 routes.post("/classificacao",  multerConfig.single("file"), TextoController.cadastrarTexto);
 routes.put("/classificacao/:id", cors(),  TextoController.atualizarClassificacaoTexto);
 
