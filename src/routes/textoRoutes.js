@@ -27,7 +27,7 @@ routes.get('/download-csv', async (req, res) => {
       header: [
         { id: 'id', title: 'ID' },
         { id: 'texto', title: 'Texto' },
-        { id: 'classificacao', title: 'Classificação' },
+        { id: 'classificacao', title: 'Rótulo' },
 
       ],
     });
@@ -38,7 +38,7 @@ routes.get('/download-csv', async (req, res) => {
       .then(() => {
         res.setHeader('Content-Type', 'text/csv');
         res.setHeader('Content-Disposition', 'attachment; filename=output.csv');
-        res.download('output.csv');
+        res.download('rotulo_texto.csv');
       })
       .catch((error) => {
         console.error(error);

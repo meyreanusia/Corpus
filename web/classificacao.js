@@ -10,8 +10,6 @@ function handleText(documentoId) {
         return response.json();
       })
       .then((data) => {
-        console.log("entrei");
-        console.log(data);
         const listaTextos = data.listaTextos
         const tabela = document.querySelector(".tabelaClassificacao");
         const tbody = document.createElement("tbody");
@@ -128,7 +126,6 @@ async function classificar(event) {
   const idCell = row.querySelector("td");
   const id = idCell.textContent;
 
-
   try{
 
     const response = await fetch(`http://localhost:3000/classificacao/${id}`, {
@@ -146,7 +143,6 @@ async function classificar(event) {
   }
 
   const data = await response.json();
-  console.log(data);
 
   }catch(error){
     console.log(`Erro durante a requisição: ${error}`);

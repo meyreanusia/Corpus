@@ -60,7 +60,6 @@ class TextoController {
 
         products.push(product);
         const novoTexto = await texto.create(product);
-        // console.log(`Produto salvo no banco de dados: ${novoTexto}`);
       }
 
       return res.status(200).json({ message: "Produtos cadastrados com sucesso", products, documentoId });
