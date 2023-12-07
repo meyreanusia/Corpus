@@ -14,9 +14,9 @@ function handleText(documentoId) {
         const tabela = document.querySelector(".tabelaClassificacao");
         const tbody = document.createElement("tbody");
 
-        listaTextos.forEach((item, index) => {
+        listaTextos.forEach((item, index, documentoId) => {
           if (index === 0) {
-            criarTabela(item, index);
+            criarTabela(item, index, documentoId);
           }
           const tr = document.createElement("tr");
           const thead = document.querySelector("thead");
@@ -53,6 +53,21 @@ function handleText(documentoId) {
                 selectButton(event);
                 classificar(event);
               });
+
+              if(item[key]){
+
+                switch (item[key]) {
+                  case 'positivo':
+                    positivo.classList.add('selecionado');
+                    break;
+                  case 'negativo':
+                    negativo.classList.add('selecionado');
+                    break;
+                  case 'neutro':
+                    neutro.classList.add('selecionado');
+                    break;
+                }
+              }
             } 
             else if (index >= 3) {
               continue
@@ -68,13 +83,15 @@ function handleText(documentoId) {
         });
         tabela.appendChild(tbody);
       });
-      return response.json();
+
   } catch (error) {
     console.log(error);
   }
 }
 
-function criarTabela(item, index) {
+function criarTabela(item, index, documento) {
+
+  const documentoId = documento[0].documentoId;
   const tabela = document.querySelector(".tabelaClassificacao");
   const thead = document.querySelector("thead");
   const tr = document.createElement("tr");
@@ -101,7 +118,7 @@ function criarTabela(item, index) {
   const dowload = document.createElement("a");
   dowload.classList.add("dowload");
   dowload.textContent = "Dowload CSV"
-  dowload.setAttribute("href", "http://localhost:3000/download-csv")
+  dowload.setAttribute("href", `http://localhost:3000/download-csv/${documentoId}`)
   body.appendChild(dowload)
 }
 

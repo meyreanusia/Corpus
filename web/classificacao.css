@@ -7,9 +7,24 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    padding: 20px;
 
 }
+body > div.container-titulo{
+    display: flex;
+    align-items: center;
+    column-gap: 5px;
+  }
+  
+body > .container-titulo > i{
+    color: rgb(52, 103, 232);
+}
 
+body > h4{
+    align-self: flex-start;
+    margin-top: 20px;
+
+}
 .tabelaClassificacao{
     box-sizing: border-box;
     height: 80%;

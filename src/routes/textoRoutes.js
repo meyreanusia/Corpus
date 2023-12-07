@@ -20,10 +20,12 @@ routes.get("/classificacao/:documentoId", cors(), TextoController.getTextoPorDoc
 routes.post("/classificacao",  multerConfig.single("file"), cors(), TextoController.cadastrarTexto);
 routes.put("/classificacao/:id", cors(),  TextoController.atualizarClassificacaoTexto);
 
-routes.get('/download-csv', async (req, res) => {
+routes.get('/download-csv/:documentoId', async (req, res) => {
+
+  const {documentoId} = req.params;
   try {
     const csvWriter = createObjectCsvWriter({
-      path: 'classificado.csv',
+      path: `rotulo_documento_${documentoId}.csv`,
       header: [
         { id: 'id', title: 'ID' },
         { id: 'texto', title: 'Texto' },
@@ -32,13 +34,13 @@ routes.get('/download-csv', async (req, res) => {
       ],
     });
 
-    const dadosTabela = await texto.find({});
+    const dadosTabela = await texto.find({documentoId});
 
     csvWriter.writeRecords(dadosTabela)
       .then(() => {
         res.setHeader('Content-Type', 'text/csv');
         res.setHeader('Content-Disposition', 'attachment; filename=output.csv');
-        res.download('rotulo_texto.csv');
+        res.download(`rotulo_documento_${documentoId}.csv`);
       })
       .catch((error) => {
         console.error(error);
