@@ -19,6 +19,7 @@ routes.get("/classificacao", cors(), TextoController.listarTexto);
 routes.get("/classificacao/:documentoId", cors(), TextoController.getTextoPorDocumentoId);
 routes.post("/classificacao",  multerConfig.single("file"), cors(), TextoController.cadastrarTexto);
 routes.put("/classificacao/:id", cors(),  TextoController.atualizarClassificacaoTexto);
+routes.delete("/classificacao/:documentoId", cors(),  TextoController.excluir);
 
 routes.get('/download-csv/:documentoId', async (req, res) => {
 

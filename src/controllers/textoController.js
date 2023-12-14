@@ -2,6 +2,7 @@ import texto from "../models/Textos.js";
 import {Readable} from 'stream';
 import readline from "readline";
 import { v4 as uuidv4 } from 'uuid'; 
+import { log } from "console";
 
 class TextoController {
 
@@ -30,6 +31,8 @@ class TextoController {
     try {
       const { file } = req;
       const { buffer } = file;
+      // console.log(file);
+      // console.log(buffer);
 
       const readableFile = new Readable();
       readableFile.push(buffer);
@@ -38,7 +41,6 @@ class TextoController {
       const productsLine = readline.createInterface({
         input: readableFile
       });
-
       const products = [];
       let documentoId =  uuidv4();
       let primeiraLinha = true;
@@ -50,14 +52,18 @@ class TextoController {
           primeiraLinha = false;
           continue;  
         }
-        const productLineSplit = line.split(";");
+        // const productLineSplit = line.split(/[;,]/);
+        const delimiter = line.match(/[,;]/)[0];
 
+        const [id, textoDocumento] = line.split(new RegExp(`${delimiter}(?=(?:[^"]*"[^"]*")*[^"]*$)`));
+        
         const product = {
-          texto: productLineSplit[1],
+          texto: textoDocumento,
           classificacao: '',
           documentoId: documentoId, 
         };
-
+        console.log(product);
+        console.log(id);
         products.push(product);
         const novoTexto = await texto.create(product);
       }
@@ -76,6 +82,23 @@ class TextoController {
       res.status(200).json({message: "texto atualizado"})
     }catch(error){
         res.status(500).json({})
+    }
+  }
+
+
+  static async excluir(req, res) {
+
+    try {
+      const { documentoId } = req.params;
+      const textoParaExcluir = await texto.deleteMany({ documentoId });
+      console.log(textoParaExcluir);
+      if (!textoParaExcluir) {
+        return res.status(404).json({ message: "Texto não encontrado para exclusão" });
+      }
+      return res.status(200).json({ message: "Texto excluído com sucesso" });
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ message: "Erro ao excluir texto por ID" });
     }
   }
 

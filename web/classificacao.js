@@ -1,5 +1,4 @@
 
-
 function handleText(documentoId) {
   try {
     fetch(`http://localhost:3000/classificacao/${documentoId}`)
@@ -118,8 +117,16 @@ function criarTabela(item, index, documento) {
   const dowload = document.createElement("a");
   dowload.classList.add("dowload");
   dowload.textContent = "Dowload CSV"
-  dowload.setAttribute("href", `http://localhost:3000/download-csv/${documentoId}`)
-  body.appendChild(dowload)
+  dowload.addEventListener("click", () => {
+    try {
+      window.location.href = `http://localhost:3000/download-csv/${documentoId}`;
+      // const response = await fetch(`http://localhost:3000/download-csv/${documentoId}`);
+    } catch (error) {
+      console.error("Erro ao baixar o arquivo:", error);
+    }
+  });
+  body.appendChild(dowload);
+
 }
 
 function selectButton(event) {
