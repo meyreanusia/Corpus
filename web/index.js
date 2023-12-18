@@ -1,8 +1,6 @@
 
 
 function redirectToClassificacao(documentoId) {
-
-        console.log(documentoId);
         const classificacaoUrl = `../html/classificacao.html?documentoId=${documentoId}`;
         setTimeout(function() {
         window.location.href = classificacaoUrl;
@@ -15,9 +13,11 @@ function redirectToClassificacao(documentoId) {
 document.getElementById("meuFormulario").addEventListener("submit", (event) => {
     event.preventDefault();
     const formulario = event.target;
-
     const formData = new FormData(formulario);
 
+    const loading = document.querySelector('.container-spinner');
+    loading.style.display = 'inline';
+    formulario.style.display = "none";
     fetch('http://localhost:3000/classificacao', {
         method: 'POST',
         body: formData

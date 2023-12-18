@@ -1,4 +1,3 @@
-
 function handleText(documentoId) {
   try {
     fetch(`http://localhost:3000/classificacao/${documentoId}`)
@@ -9,7 +8,7 @@ function handleText(documentoId) {
         return response.json();
       })
       .then((data) => {
-        const listaTextos = data.listaTextos
+        const listaTextos = data.listaTextos;
         const tabela = document.querySelector(".tabelaClassificacao");
         const tbody = document.createElement("tbody");
 
@@ -20,7 +19,7 @@ function handleText(documentoId) {
           const tr = document.createElement("tr");
           const thead = document.querySelector("thead");
 
-          index = 0; 
+          index = 0;
           for (const key in item) {
             const td = document.createElement("td");
 
@@ -53,43 +52,40 @@ function handleText(documentoId) {
                 classificar(event);
               });
 
-              if(item[key]){
-
+              if (item[key]) {
                 switch (item[key]) {
-                  case 'positivo':
-                    positivo.classList.add('selecionado');
+                  case "positivo":
+                    positivo.classList.add("selecionado");
                     break;
-                  case 'negativo':
-                    negativo.classList.add('selecionado');
+                  case "negativo":
+                    negativo.classList.add("selecionado");
                     break;
-                  case 'neutro':
-                    neutro.classList.add('selecionado');
+                  case "neutro":
+                    neutro.classList.add("selecionado");
                     break;
                 }
               }
-            } 
-            else if (index >= 3) {
-              continue
-            }else {
+            } else if (index >= 3) {
+              continue;
+            } else {
               td.textContent = item[key];
             }
 
             tr.appendChild(td);
-            index++
+            index++;
           }
 
           tbody.appendChild(tr);
         });
         tabela.appendChild(tbody);
+        tabelaContainer.appendChild(tabela);
       });
-
   } catch (error) {
     console.log(error);
   }
 }
 
 function criarTabela(item, index, documento) {
-
   const documentoId = documento[0].documentoId;
   const tabela = document.querySelector(".tabelaClassificacao");
   const thead = document.querySelector("thead");
@@ -116,17 +112,24 @@ function criarTabela(item, index, documento) {
   const body = document.querySelector("body");
   const dowload = document.createElement("a");
   dowload.classList.add("dowload");
-  dowload.textContent = "Dowload CSV"
-  dowload.addEventListener("click", () => {
+  dowload.textContent = "Dowload CSV";
+  dowload.addEventListener("click", async (event) => {
     try {
       window.location.href = `http://localhost:3000/download-csv/${documentoId}`;
-      // const response = await fetch(`http://localhost:3000/download-csv/${documentoId}`);
+      event.preventDefault();
+
+      if (!response.ok) {
+        throw new Error(`Erro no download: ${response.statusText}`);
+      }
+     
     } catch (error) {
       console.error("Erro ao baixar o arquivo:", error);
     }
+
+
+    // const popup = document.querySelector(".popup");
   });
   body.appendChild(dowload);
-
 }
 
 function selectButton(event) {
@@ -150,29 +153,26 @@ async function classificar(event) {
   const idCell = row.querySelector("td");
   const id = idCell.textContent;
 
-  try{
-
+  try {
     const response = await fetch(`http://localhost:3000/classificacao/${id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        classificacao: button.textContent
-      })
-    })
+        classificacao: button.textContent,
+      }),
+    });
 
-  if(!response.ok){
-    throw new Error(`Erro na classificação: ${response.statusText}`)
-  }
+    if (!response.ok) {
+      throw new Error(`Erro na classificação: ${response.statusText}`);
+    }
 
-  const data = await response.json();
-
-  }catch(error){
+    const data = await response.json();
+  } catch (error) {
     console.log(`Erro durante a requisição: ${error}`);
-
   }
 }
 const urlParams = new URLSearchParams(window.location.search);
-const documentoId = urlParams.get('documentoId');
-handleText(documentoId)
+const documentoId = urlParams.get("documentoId");
+handleText(documentoId);

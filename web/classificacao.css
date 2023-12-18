@@ -87,3 +87,17 @@ body > table > tbody > tr > td:nth-child(3){
     color: black;
     border:  1px solid  rgb(52, 103, 232);
 }
+
+.popup{
+    display: none;
+    column-gap: 30px;
+
+}
+
+.popup a{
+    text-decoration: none;
+    cursor: pointer;
+}
+.popup a:hover{
+    color: black;
+}
