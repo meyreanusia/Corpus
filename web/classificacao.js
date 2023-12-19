@@ -1,3 +1,5 @@
+
+
 function handleText(documentoId) {
   try {
     fetch(`http://localhost:3000/classificacao/${documentoId}`)
@@ -78,7 +80,6 @@ function handleText(documentoId) {
           tbody.appendChild(tr);
         });
         tabela.appendChild(tbody);
-        tabelaContainer.appendChild(tabela);
       });
   } catch (error) {
     console.log(error);
@@ -110,25 +111,24 @@ function criarTabela(item, index, documento) {
   thead.appendChild(tr);
 
   const body = document.querySelector("body");
-  const dowload = document.createElement("a");
+  const dowload = document.createElement("button");
+
+  const UrlDowload = `http://localhost:3000/download-csv/${documentoId}`;
   dowload.classList.add("dowload");
   dowload.textContent = "Dowload CSV";
+  dowload.type = 'button';
   dowload.addEventListener("click", async (event) => {
-    try {
-      window.location.href = `http://localhost:3000/download-csv/${documentoId}`;
-      event.preventDefault();
-
-      if (!response.ok) {
-        throw new Error(`Erro no download: ${response.statusText}`);
+    event.preventDefault();
+    fetch(UrlDowload)
+    .then((response) => {
+      console.log("Status da resposta:", response.ok);
+      if(!response.ok){
+        throw new error(`Erro no dowload: ${response.statusText}`)
       }
-     
-    } catch (error) {
-      console.error("Erro ao baixar o arquivo:", error);
-    }
-
-
+      return response
+    })
     // const popup = document.querySelector(".popup");
-  });
+  })
   body.appendChild(dowload);
 }
 
