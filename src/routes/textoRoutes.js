@@ -21,7 +21,7 @@ routes.post("/classificacao",  multerConfig.single("file"), cors(), TextoControl
 routes.put("/classificacao/:id", cors(),  TextoController.atualizarClassificacaoTexto);
 routes.delete("/classificacao/:documentoId", cors(),  TextoController.excluir);
 
-routes.get('/download-csv/:documentoId', async (req, res) => {
+routes.get('/download-csv/:documentoId', cors(), async (req, res) => {
 
   const {documentoId} = req.params;
   try {
